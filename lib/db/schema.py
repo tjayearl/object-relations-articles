@@ -1,14 +1,15 @@
 import sqlite3
+from lib.db.connection import get_connection
 
 def create_tables():
-    conn = sqlite3.connect('db/development.db')  # or your actual DB path
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS authors (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL
-    )
+    );
     """)
 
     cursor.execute("""
@@ -16,7 +17,7 @@ def create_tables():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         category TEXT NOT NULL
-    )
+    );
     """)
 
     cursor.execute("""
@@ -27,7 +28,7 @@ def create_tables():
         magazine_id INTEGER,
         FOREIGN KEY (author_id) REFERENCES authors(id),
         FOREIGN KEY (magazine_id) REFERENCES magazines(id)
-    )
+    );
     """)
 
     conn.commit()

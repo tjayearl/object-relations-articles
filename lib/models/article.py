@@ -17,13 +17,3 @@ class Article:
         conn.commit()
         self.id = cursor.lastrowid
         conn.close()
-
-    @classmethod
-    def find_by_title(cls, title):
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM articles WHERE title = ?", (title,))
-        row = cursor.fetchone()
-        conn.close()
-        return cls(row["title"], row["author_id"], row["magazine_id"], row["id"]) if row else None
-

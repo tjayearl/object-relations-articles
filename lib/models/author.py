@@ -20,20 +20,7 @@ class Author:
         cursor.execute("SELECT * FROM authors WHERE id = ?", (id,))
         row = cursor.fetchone()
         conn.close()
-        return cls(row["name"], row["id"]) if row else None
-
-    def articles(self):
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM articles WHERE author_id = ?", (self.id,))
-        return cursor.fetchall()
-
-    def magazines(self):
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT DISTINCT m.* FROM magazines m
-            JOIN articles a ON m.id = a.magazine_id
-            WHERE a.author_id = ?
-        """, (self.id,))
-        return cursor.fetchall()
+        if row:
+            return cls(row["name"], row["id"])
+        else:
+            return None
